@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     public Vector2 jumpHeight;
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();  
+        rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
     }
 
@@ -36,16 +36,16 @@ public class PlayerController : MonoBehaviour
     {
         if (collider.IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
-            isGrounded = true; 
+            isGrounded = true;
         }
         else if (!collider.IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
             isGrounded = false;
         }
 
-            if (Input.GetKeyDown(slideKey))
+        if (Input.GetKeyDown(slideKey))
         {
-            playerObj.transform.localScale = new Vector3(1, 0.5f);
+            playerObj.transform.localScale = new Vector3(gameObject.transform.localScale.x, (gameObject.transform.localScale.y / 2));
             rb.AddForce(Vector2.down * 10);
             Debug.Log("Slide");
             if (HorizontalInput > 0)
@@ -60,13 +60,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyUp(slideKey))
+        if (Input.GetKeyUp(slideKey))
         {
-            playerObj.transform.localScale = new Vector3(1, 1f);
+            playerObj.transform.localScale = new Vector3(gameObject.transform.localScale.x, (gameObject.transform.localScale.y * 2));
 
         }
 
-        if(Input.GetKeyDown(jumpKey))
+        if (Input.GetKeyDown(jumpKey))
         {
             if (!jumping)
             {
@@ -76,13 +76,13 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if(HorizontalInput > 0)
+        if (HorizontalInput > 0)
         {
-            gameObject.transform.localScale = new Vector3(1, 1, 1);
+            gameObject.transform.localScale = new Vector3(0.36f, 0.36f, 0.36f);
         }
-        if(HorizontalInput < 0)
+        if (HorizontalInput < 0)
         {
-            gameObject.transform.localScale = new Vector3(-1, 1, 1);
+            gameObject.transform.localScale = new Vector3(-0.36f, 0.36f, 0.36f);
         }
     }
 
@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
     {
         HorizontalInput = Input.GetAxis("Horizontal");
         float horizontalMovement = HorizontalInput * (Speed * 10) * Time.deltaTime;
-     //   rb.velocity = new Vector2(horizontalMovement, rb.velocity.y);
+        //   rb.velocity = new Vector2(horizontalMovement, rb.velocity.y);
         rb.velocity = new Vector2(horizontalMovement * (Speed * 10), rb.velocity.y);
 
         if (jumping && !alreadyJumped)
@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             jumping = false;
-        //    alreadyJumped = false;
+            //    alreadyJumped = false;
         }
     }
 }

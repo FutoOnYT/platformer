@@ -16,19 +16,34 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     bool canJump = true;
     bool jumping;
+    bool alreadyJumped;
     public GameObject playerObj;
+
+    bool isGrounded;
+
+    private Collider2D collider;
+
 
     public Vector2 jumpHeight;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();  
-        
+        collider = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(slideKey))
+        if (collider.IsTouchingLayers(LayerMask.GetMask("Ground")))
+        {
+            isGrounded = true; 
+        }
+        else if (!collider.IsTouchingLayers(LayerMask.GetMask("Ground")))
+        {
+            isGrounded = false;
+        }
+
+            if (Input.GetKeyDown(slideKey))
         {
             playerObj.transform.localScale = new Vector3(1, 0.5f);
             rb.AddForce(Vector2.down * 10);
@@ -51,15 +66,24 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(jumpKey))
+        if(Input.GetKeyDown(jumpKey))
         {
-            Jump();
-        }
-        else if(Input.GetKeyUp(jumpKey))
-        {
-            jumping = false;
+            if (!jumping)
+            {
+                jumping = true;
+                alreadyJumped = false;
+            }
         }
 
+
+        if(HorizontalInput > 0)
+        {
+            gameObject.transform.localScale = new Vector3(1, 1, 1);
+        }
+        if(HorizontalInput < 0)
+        {
+            gameObject.transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 
     private void FixedUpdate()
@@ -67,16 +91,21 @@ public class PlayerController : MonoBehaviour
         HorizontalInput = Input.GetAxis("Horizontal");
         float horizontalMovement = HorizontalInput * (Speed * 10) * Time.deltaTime;
      //   rb.velocity = new Vector2(horizontalMovement, rb.velocity.y);
-        rb.AddForce(new Vector2(horizontalMovement, rb.velocity.y), ForceMode2D.Impulse);
+        rb.velocity = new Vector2(horizontalMovement * (Speed * 10), rb.velocity.y);
 
-       
+        if (jumping && !alreadyJumped)
+        {
+            rb.AddForce(Vector2.up * (jumpForce * 100), ForceMode2D.Force);
+            alreadyJumped = true;
+        }
     }
 
-
-
-    void Jump()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Adding Force");
-        rb.AddRelativeForce(jumpHeight, ForceMode2D.Impulse);
+        if (collision.gameObject.tag == "Ground")
+        {
+            jumping = false;
+        //    alreadyJumped = false;
+        }
     }
 }

@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
     bool canJump = true;
     public bool jumping;
     bool alreadyJumped;
-    public GameObject playerObj;
 
     bool isGrounded;
 
@@ -78,10 +77,12 @@ public class PlayerController : MonoBehaviour
         if (HorizontalInput > 0)
         {
             gameObject.transform.localScale = new Vector3(0.36f, 0.36f, 0.36f);
+           
         }
         if (HorizontalInput < 0)
         {
             gameObject.transform.localScale = new Vector3(-0.36f, 0.36f, 0.36f);
+
         }
     }
 

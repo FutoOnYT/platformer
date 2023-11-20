@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public float slideForce;
     public float jumpForce;
     bool canJump = true;
-    bool jumping;
+    public bool jumping;
     bool alreadyJumped;
     public GameObject playerObj;
 
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(slideKey))
         {
-            playerObj.transform.localScale = new Vector3(gameObject.transform.localScale.x, (gameObject.transform.localScale.y / 2));
+            gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x, (gameObject.transform.localScale.y / 2));
             rb.AddForce(Vector2.down * 10);
             Debug.Log("Slide");
             if (HorizontalInput > 0)
@@ -59,10 +59,9 @@ public class PlayerController : MonoBehaviour
 
             }
         }
-
-        if (Input.GetKeyUp(slideKey))
+        else if (Input.GetKeyUp(slideKey))
         {
-            playerObj.transform.localScale = new Vector3(gameObject.transform.localScale.x, (gameObject.transform.localScale.y * 2));
+            gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x, (gameObject.transform.localScale.y * 2));
 
         }
 

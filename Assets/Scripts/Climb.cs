@@ -6,6 +6,7 @@ public class Climb : MonoBehaviour
 {
     PlayerController playerController;
     Animator animator;
+
     void Start()
     {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
@@ -20,7 +21,7 @@ public class Climb : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if((collision.gameObject.tag == "Ground") && (playerController.jumping))
+        if((collision.gameObject.tag == "ClimbTrigger") && (playerController.jumping))
         {
             StartCoroutine(vault(collision));
         }
@@ -30,6 +31,8 @@ public class Climb : MonoBehaviour
     {
         animator.SetTrigger("Vault");
         yield return new WaitForSeconds(0.1f);
+        
         playerController.gameObject.transform.position = collision.GetComponent<Ground>().vaultPosition.transform.position;
+
     }
 }

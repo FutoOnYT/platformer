@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private Vector3 mousePos;
 
     Vector2 Position = new Vector2(0f, 0f); 
@@ -15,7 +15,12 @@ public class Platform : MonoBehaviour
 
     private void Start()
     {
-        isPlacing = false; 
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void OnEnable()
+    {
+        isPlacing = true;
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -24,6 +29,7 @@ public class Platform : MonoBehaviour
         mousePos = Input.mousePosition; 
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Position = Vector2.Lerp(transform.position, mousePos, moveSpeed); 
+
     }
 
 
@@ -31,13 +37,11 @@ public class Platform : MonoBehaviour
     {
         if(isPlacing == true)
         {
+            rb.simulated = true;
             rb.MovePosition(Position); 
         }
     }
 
 
-    public void placing()
-    {
-        isPlacing = true;
-    }
+    
 }

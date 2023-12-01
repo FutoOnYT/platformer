@@ -19,8 +19,10 @@ public class PlayerController : MonoBehaviour
     bool alreadyJumped;
 
     bool isGrounded;
+    bool walking;
 
     private Collider2D collider;
+    public Animator anim;
 
 
     public Vector2 jumpHeight;
@@ -28,6 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -51,12 +54,18 @@ public class PlayerController : MonoBehaviour
             {
                 rb.AddRelativeForce(Vector2.right * slideForce, ForceMode2D.Impulse);
 
+
             }
             else if (HorizontalInput < 0)
             {
                 rb.AddRelativeForce(Vector2.left * slideForce, ForceMode2D.Impulse);
 
+
             }
+
+
+          
+
         }
         else if (Input.GetKeyUp(slideKey))
         {
@@ -70,6 +79,7 @@ public class PlayerController : MonoBehaviour
             {
                 jumping = true;
                 alreadyJumped = false;
+                anim.SetTrigger("Jump");
             }
         }
 
@@ -77,11 +87,19 @@ public class PlayerController : MonoBehaviour
         if (HorizontalInput > 0)
         {
             gameObject.transform.localScale = new Vector3(0.36f, 0.36f, 0.36f);
-           
+            anim.SetBool("walking", true);
+            walking = true;
         }
         if (HorizontalInput < 0)
         {
             gameObject.transform.localScale = new Vector3(-0.36f, 0.36f, 0.36f);
+            anim.SetBool("walking", true);
+            walking = true;
+        }
+
+        if (HorizontalInput == 0)
+        {
+            anim.SetBool("walking", false);
 
         }
     }
@@ -96,6 +114,7 @@ public class PlayerController : MonoBehaviour
         if (jumping && !alreadyJumped)
         {
             rb.AddForce(Vector2.up * (jumpForce * 100), ForceMode2D.Force);
+
             alreadyJumped = true;
         }
     }

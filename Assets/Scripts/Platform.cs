@@ -37,8 +37,8 @@ public class Platform : MonoBehaviour
     {
         if(isPlacing == true)
         {
-            rb.simulated = true;
-            rb.MovePosition(Position); 
+            rb.MovePosition(Position);
+            GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 

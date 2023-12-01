@@ -34,9 +34,9 @@ public class PlatformController : MonoBehaviour
             if ((Input.GetMouseButtonDown(0)) && recentlyPlaced.GetComponent<Platform>().isPlacing)
             {
                 Debug.Log("Disable");
-                recentlyPlaced.GetComponent<Platform>().rb.simulated = false;
                 buttonPressed = false;
                 recentlyPlaced.GetComponent<Platform>().isPlacing = false;
+                recentlyPlaced.GetComponent<BoxCollider2D>().enabled = true;
             }
         }
       

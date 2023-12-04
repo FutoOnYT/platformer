@@ -32,9 +32,9 @@ public class Buttons : MonoBehaviour
         }
     }
 
-    public void LoadLevelOne()
+    public void LoadLevel(string levelToLoad)
     {
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene(levelToLoad);
     }
 
 }

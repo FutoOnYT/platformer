@@ -28,10 +28,12 @@ public class PlayerController : MonoBehaviour
     private float wallJumpingTime = .2f;
     private float wallJumpingCounter;   
     private float wallJumpingDuration = .4f;
-    private Vector2 wallJumpingPower = new Vector2(20f, .05f); 
+    private Vector2 wallJumpingPower = new Vector2(-20f, 5f); 
 
     bool isGrounded;
     bool walking;
+
+    bool facingLeft;
 
 
     GameObject slidingWall;
@@ -102,6 +104,7 @@ public class PlayerController : MonoBehaviour
 
         if (HorizontalInput > 0)
         {
+            facingLeft = false;
             gameObject.transform.localScale = new Vector3(0.36f, 0.36f, 0.36f);
             if (!isWallSliding)
             {
@@ -111,6 +114,7 @@ public class PlayerController : MonoBehaviour
         }
         if (HorizontalInput < 0)
         {
+            facingLeft = true;
             gameObject.transform.localScale = new Vector3(-0.36f, 0.36f, 0.36f);
             if (!isWallSliding)
             {
@@ -123,6 +127,12 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool("walking", false);
 
+        }
+
+
+        if (HorizontalInput != 0)
+        {
+            walking = false;
         }
 
         wallSlide(); 
@@ -158,9 +168,20 @@ public class PlayerController : MonoBehaviour
     {
         if (touchingWall() && !isGrounded)
         {
+            if (facingLeft)
+            {
+                gameObject.transform.localScale = new Vector3(0.36f, 0.36f, 0.36f);
+            }
+
+            if (!facingLeft)
+            {
+                gameObject.transform.localScale = new Vector3(-0.36f, 0.36f, 0.36f);
+
+            }
             isWallSliding = true;
             anim.SetBool("IsWallSliding", true);
             anim.SetBool("walking", false);
+            
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
         }
         else
@@ -188,6 +209,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(jumpKey) && wallJumpingCounter > 0f)
         {
+            Debug.Log("Wall Jump");
             isWallJumping = true;
             rb.velocity = new Vector2(wallJumpingDirect * wallJumpingPower.x, wallJumpingPower.y);
             wallJumpingCounter = 0f;

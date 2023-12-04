@@ -10,9 +10,12 @@ public class PlatformController : MonoBehaviour
     public bool isPlacing;
     public bool buttonPressed;
 
+    public GameObject cameraObj;
+
     GameObject recentlyPlaced;
 
     public Vector3 mousePos;
+    float mouseX;
     Vector3 placePos;
 
     [SerializeField] Camera mainCam;
@@ -27,7 +30,7 @@ public class PlatformController : MonoBehaviour
     {
         mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
 
-
+        mouseX = mousePos.x + cameraObj.transform.localPosition.x;
         
         if(recentlyPlaced != null)
         {
@@ -44,7 +47,7 @@ public class PlatformController : MonoBehaviour
     public void placePlatform()
     {
         Debug.Log("placePlatform");
-        Vector3 placePos = new Vector3(mousePos.x, mousePos.y, 0);
+        Vector3 placePos = new Vector3(mouseX, mousePos.y, 0);
         Vector3 rotation = mousePos - transform.position;
         recentlyPlaced = Instantiate(platform, placePos, Quaternion.identity);
         platScript = recentlyPlaced.GetComponent<Platform>();

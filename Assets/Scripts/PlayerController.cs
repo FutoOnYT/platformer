@@ -33,9 +33,13 @@ public class PlayerController : MonoBehaviour
     bool isGrounded;
     bool walking;
 
+
+    GameObject slidingWall;
+
     private Collider2D collider;
     public Animator anim;
 
+    Vector3 slideWallDirection;
 
     public Vector2 jumpHeight;
     void Start()
@@ -87,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(jumpKey))
         {
-            if (!jumping)
+            if ((!jumping) && (!isWallSliding))
             {
                 jumping = true;
                 alreadyJumped = false;
@@ -99,14 +103,20 @@ public class PlayerController : MonoBehaviour
         if (HorizontalInput > 0)
         {
             gameObject.transform.localScale = new Vector3(0.36f, 0.36f, 0.36f);
-            anim.SetBool("walking", true);
-            walking = true;
+            if (!isWallSliding)
+            {
+                anim.SetBool("walking", true);
+                walking = true;
+            }
         }
         if (HorizontalInput < 0)
         {
             gameObject.transform.localScale = new Vector3(-0.36f, 0.36f, 0.36f);
-            anim.SetBool("walking", true);
-            walking = true;
+            if (!isWallSliding)
+            {
+                anim.SetBool("walking", true);
+                walking = true;
+            }
         }
 
         if (HorizontalInput == 0)
@@ -125,7 +135,6 @@ public class PlayerController : MonoBehaviour
         {
             HorizontalInput = Input.GetAxis("Horizontal");
             float horizontalMovement = HorizontalInput * (Speed * 10) * Time.deltaTime;
-            //   rb.velocity = new Vector2(horizontalMovement, rb.velocity.y);
             rb.velocity = new Vector2(horizontalMovement * (Speed * 10), rb.velocity.y);
         }
 
@@ -142,7 +151,6 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             jumping = false;
-            //    alreadyJumped = false;
         }
     }
 
@@ -150,12 +158,16 @@ public class PlayerController : MonoBehaviour
     {
         if (touchingWall() && !isGrounded)
         {
-            isWallSliding = true;    
+            isWallSliding = true;
+            anim.SetBool("IsWallSliding", true);
+            anim.SetBool("walking", false);
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
         }
         else
         {
             isWallSliding = false;
+            anim.SetBool("IsWallSliding", false);
+
         }
     }
 
@@ -179,7 +191,7 @@ public class PlayerController : MonoBehaviour
             isWallJumping = true;
             rb.velocity = new Vector2(wallJumpingDirect * wallJumpingPower.x, wallJumpingPower.y);
             wallJumpingCounter = 0f;
-
+            anim.SetTrigger("WallJump");
 
             Invoke(nameof(stopWallJumping), wallJumpingDuration); 
         }

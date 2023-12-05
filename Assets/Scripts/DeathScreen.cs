@@ -5,9 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class DeathScreen : MonoBehaviour
 {
+    public string levelToReload;
+
     public void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().ToString());
+        SceneManager.LoadScene(levelToReload);
     }
 
     public void MainMenu()

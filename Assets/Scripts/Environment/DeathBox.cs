@@ -13,7 +13,7 @@ public class DeathBox : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             Instantiate(deathParticles);
-            deathParticles.transform.position = collision.transform.position;
+            deathParticles.transform.position = collision.transform.localPosition;
             collision.gameObject.SetActive(false);
             Invoke("DeathScreen", 2.0f);
         }

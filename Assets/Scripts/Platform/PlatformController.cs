@@ -14,6 +14,9 @@ public class PlatformController : MonoBehaviour
 
     GameObject recentlyPlaced;
 
+    public GameObject placeMenu;
+
+
     public Vector3 mousePos;
     float mouseX;
     Vector3 placePos;
@@ -40,18 +43,26 @@ public class PlatformController : MonoBehaviour
                 buttonPressed = false;
                 recentlyPlaced.GetComponent<Platform>().isPlacing = false;
                 recentlyPlaced.GetComponent<BoxCollider2D>().enabled = true;
+                //recentlyPlaced.GetComponent<ParticleSystem>().Play();
             }
         }
       
     }
-    public void placePlatform()
+    public void placePlatform(GameObject platformToPlace)
     {
         Debug.Log("placePlatform");
         Vector3 placePos = new Vector3(mouseX, mousePos.y, 0);
         Vector3 rotation = mousePos - transform.position;
-        recentlyPlaced = Instantiate(platform, placePos, Quaternion.identity);
+        recentlyPlaced = Instantiate(platformToPlace, placePos, Quaternion.identity);
+        placeMenu.SetActive(false);
         platScript = recentlyPlaced.GetComponent<Platform>();
         recentlyPlaced.GetComponent<Platform>().isPlacing = true;
     }
 
+
+    public void Undo()
+    {
+        Destroy(platScript.gameObject);
+        platScript = null;
+    }
 }

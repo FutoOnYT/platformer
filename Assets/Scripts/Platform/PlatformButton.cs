@@ -12,8 +12,9 @@ public class PlatformButton : MonoBehaviour
 
     public Color onCD;
     public Color offCD;
-    public Button Button; 
-    
+    public Button Button;
+
+    public GameObject placeMenu;
 
 
     void Start()
@@ -30,7 +31,7 @@ public class PlatformButton : MonoBehaviour
             if (cooldown < 0)
             {
                 isReady = true;
-                ChangeColour();
+                //ChangeColour();
             }
         }
     }
@@ -41,31 +42,33 @@ public class PlatformButton : MonoBehaviour
 
         if (isReady == true)
         {
-            platController.buttonPressed = true;
-            platController.placePlatform();
-            cooldown = 1.5f;
-            isReady = false;
-            ChangeColour();
+            placeMenu.SetActive(true);
+
+            //platController.buttonPressed = true;
+            //platController.placePlatform();
+            //cooldown = 1.5f;
+            //isReady = false;
+            //ChangeColour();
         }
     }
 
-    void ChangeColour()
-    {
-        ColorBlock cb = Button.colors;
-        if (isReady == true)
-        {
-            cb.normalColor = offCD;
-            cb.highlightedColor = offCD;
-            cb.pressedColor = offCD;
-            Button.colors = cb;
-        }
-        else if (isReady == false) 
-        {
-            cb.normalColor = onCD;
-            cb.highlightedColor = onCD;
-            cb.pressedColor= onCD;
-            cb.selectedColor = onCD;
-            Button.colors = cb;   
-        }
-    }
+    //void ChangeColour()
+    //{
+    //    ColorBlock cb = Button.colors;
+    //    if (isReady == true)
+    //    {
+    //        cb.normalColor = offCD;
+    //        cb.highlightedColor = offCD;
+    //        cb.pressedColor = offCD;
+    //        Button.colors = cb;
+    //    }
+    //    else if (isReady == false) 
+    //    {
+    //        cb.normalColor = onCD;
+    //        cb.highlightedColor = onCD;
+    //        cb.pressedColor= onCD;
+    //        cb.selectedColor = onCD;
+    //        Button.colors = cb;   
+    //    }
+    //}
 }

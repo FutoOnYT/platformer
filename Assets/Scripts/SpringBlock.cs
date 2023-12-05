@@ -22,6 +22,7 @@ public class SpringBlock : MonoBehaviour
 
     void Ready()
     {
-        gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+        //gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+        
     }
 }

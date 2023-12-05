@@ -24,7 +24,7 @@ public class EndLevel : MonoBehaviour
 
     public void Nextlevel()
     {
-
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void MainMenu()

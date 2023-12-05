@@ -9,7 +9,7 @@ public class DeathScreen : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene(levelToReload);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void MainMenu()

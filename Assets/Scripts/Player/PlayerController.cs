@@ -23,12 +23,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform wallCheck;
     [SerializeField] private LayerMask wallLayer;
 
+    private bool canDash = true;
+    private bool isDashing;
+    [SerializeField] private float dashCD;
+    [SerializeField] private float dashPower;
+    private float dashDuration = .2f;
+
     private bool isWallJumping;
     private float wallJumpingDirect;
     private float wallJumpingTime = .2f;
-    private float wallJumpingCounter;   
+    private float wallJumpingCounter;
     private float wallJumpingDuration = .4f;
-    private Vector2 wallJumpingPower = new Vector2(-20f, 5f); 
+    private Vector2 wallJumpingPower = new Vector2(-20f, 5f);
 
     bool isGrounded;
     bool walking;
@@ -54,6 +60,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDashing)
+        {
+            return;
+        }
+
         if (collider.IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
             isGrounded = true;
@@ -80,10 +91,6 @@ public class PlayerController : MonoBehaviour
 
 
             }
-
-
-          
-
         }
         else if (Input.GetKeyUp(slideKey))
         {
@@ -135,20 +142,25 @@ public class PlayerController : MonoBehaviour
             walking = false;
         }
 
-        wallSlide(); 
-        wallJump(); 
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
+            StartCoroutine(Dash());
+        }
+
+        wallSlide();
+        wallJump();
     }
 
     private void FixedUpdate()
     {
-        if (!isWallSliding)
+        if (!isWallSliding && !isDashing)
         {
             HorizontalInput = Input.GetAxis("Horizontal");
             float horizontalMovement = HorizontalInput * (Speed * 10) * Time.deltaTime;
             rb.velocity = new Vector2(horizontalMovement * (Speed * 10), rb.velocity.y);
         }
 
-        if (jumping && !alreadyJumped)
+        if (jumping && !alreadyJumped && !isDashing)
         {
             rb.AddForce(Vector2.up * (jumpForce * 100), ForceMode2D.Force);
 
@@ -181,7 +193,7 @@ public class PlayerController : MonoBehaviour
             isWallSliding = true;
             anim.SetBool("IsWallSliding", true);
             anim.SetBool("walking", false);
-            
+
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
         }
         else
@@ -194,11 +206,11 @@ public class PlayerController : MonoBehaviour
 
     private void wallJump()
     {
-        if(isWallSliding == true)
+        if (isWallSliding == true)
         {
             isWallJumping = false;
             wallJumpingDirect = -transform.localScale.x;
-            wallJumpingCounter = wallJumpingTime; 
+            wallJumpingCounter = wallJumpingTime;
 
             CancelInvoke(nameof(stopWallJumping));
         }
@@ -215,8 +227,21 @@ public class PlayerController : MonoBehaviour
             wallJumpingCounter = 0f;
             anim.SetTrigger("WallJump");
 
-            Invoke(nameof(stopWallJumping), wallJumpingDuration); 
+            Invoke(nameof(stopWallJumping), wallJumpingDuration);
         }
+    }
+
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        Vector2 originalVelocity = rb.velocity;
+        rb.velocity = new Vector2(transform.localScale.x * dashPower, 1f);
+        yield return new WaitForSeconds(dashDuration);
+        rb.velocity = originalVelocity;
+        isDashing = false;
+        yield return new WaitForSeconds(dashCD);
+        canDash = true;
     }
 
     private void stopWallJumping()
@@ -226,6 +251,6 @@ public class PlayerController : MonoBehaviour
 
     private bool touchingWall()
     {
-        return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayer); 
+        return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayer);
     }
 }

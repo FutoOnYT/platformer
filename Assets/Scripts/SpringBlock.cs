@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpringBlock : MonoBehaviour
 {
 
-    float padForce = 15f;
+    public float padForce = 15f;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Pad");
@@ -13,8 +13,9 @@ public class SpringBlock : MonoBehaviour
         {
             Debug.Log("PadPLAYER");
             collision.gameObject.GetComponent<Rigidbody2D>().AddForce(transform.up * padForce, ForceMode2D.Impulse);
-            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(transform.forward * padForce, ForceMode2D.Impulse);
+            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(transform.right * padForce, ForceMode2D.Impulse);
             gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+            gameObject.GetComponent<Animator>().SetTrigger("JumpPad");
             Invoke("Ready", 3f);
         }
     }
@@ -22,7 +23,7 @@ public class SpringBlock : MonoBehaviour
 
     void Ready()
     {
-        //gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+        gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
         
     }
 }

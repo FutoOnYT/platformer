@@ -1346,7 +1346,7 @@ Transform:
   m_GameObject: {fileID: 375712367}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.775955, y: -8.571118, z: 1.4722785}
+  m_LocalPosition: {x: -22.54, y: -8.54, z: 1.4722785}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1600,6 +1600,14 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1762222725790025155, guid: 2fa751eecf6c34242aebfd201d7966b4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1909054381}
+    - target: {fileID: 1762222725790025155, guid: 2fa751eecf6c34242aebfd201d7966b4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MainMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 2067073660655331214, guid: 2fa751eecf6c34242aebfd201d7966b4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.54000044
@@ -1735,6 +1743,14 @@ PrefabInstance:
     - target: {fileID: 4424516041270132304, guid: 2fa751eecf6c34242aebfd201d7966b4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4588503404069532222, guid: 2fa751eecf6c34242aebfd201d7966b4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1909054381}
+    - target: {fileID: 4588503404069532222, guid: 2fa751eecf6c34242aebfd201d7966b4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Nextlevel
       objectReference: {fileID: 0}
     - target: {fileID: 4662357757825386470, guid: 2fa751eecf6c34242aebfd201d7966b4, type: 3}
       propertyPath: mainCam

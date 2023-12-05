@@ -24,6 +24,7 @@ public class CameraDisable : MonoBehaviour
         if(collision.tag == "Player")
         {
             camBrain.GetComponent<CinemachineVirtualCamera>().Follow = null;
+            camBrain.GetComponent<CinemachineVirtualCamera>().enabled = false;
         }
     }
 
